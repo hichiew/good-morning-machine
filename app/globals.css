@@ -2,24 +2,176 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Design System - Flat Vending Machine Aesthetic */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Color Palette - Flat Colors Only */
+  --bg: #2C3E50; /* Dark desaturated slate/blue for page background */
+  --machine: #FF6B6B; /* Coral/salmon machine body */
+  --panel: #FFF8E7; /* Warm off-white panel background */
+  --accent-yellow: #F1C40F; /* Vending-machine yellow */
+  --accent-green: #2ECC71; /* Wholesome accent */
+  --accent-gray: #FB4D3D; /* Deadpan accent */
+  --accent-purple: #9B59B6; /* Blindbox accent */
+  --accent-pink-light: #F9B3D1;
+  --ink: #1A1A1A; /* Near-black for outlines/text */
+  --shadow: 6px 6px 0 0 var(--ink); /* Single consistent shadow style */
+  
+  /* Spacing Scale */
+  --space-1: 8px;
+  --space-2: 12px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 32px;
+  
+  /* Border & Radius */
+  --border-thick: 3px; /* Main outlines */
+  --border-thin: 2px; /* Inner components */
+  --radius-outer: 18px; /* Outer machine */
+  --radius-panel: 14px; /* Panels */
+  --radius-button: 12px; /* Buttons */
+  
+  /* Typography */
+  --font-title: 40px; /* Main title */
+  --font-section: 12px; /* Section headers */
+  --font-button: 16px; /* Button text */
+  --font-helper: 12px; /* Helper text */
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+/* Reusable Component Classes */
+.machine-container {
+  border: var(--border-thick) solid var(--ink);
+  border-radius: var(--radius-outer);
+  background: var(--machine);
+  box-shadow: var(--shadow);
+}
 
+.panel {
+  border: var(--border-thick) solid var(--ink);
+  border-radius: var(--radius-panel);
+  background: var(--panel);
+}
 
+.section-header {
+  font-size: var(--font-section);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
 
+.mode-button {
+  border: var(--border-thick) solid var(--ink);
+  border-radius: var(--radius-button);
+  font-weight: 700;
+  font-size: var(--font-button);
+  transition: all 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100px;
+}
+
+.mode-button:not(.selected) {
+  background: var(--panel);
+  color: var(--ink);
+  box-shadow: 2px 2px 0 0 var(--ink);
+}
+
+.mode-button.selected {
+  box-shadow: 4px 4px 0 0 var(--ink);
+}
+
+.mode-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 3px 3px 0 0 var(--ink);
+}
+
+.mode-button:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: 2px 2px 0 0 var(--ink);
+}
+
+.occasion-button {
+  border: var(--border-thin) solid var(--ink);
+  border-radius: var(--radius-button);
+  font-weight: 600;
+  font-size: var(--font-button);
+  transition: all 0.15s ease;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.occasion-button:not(.selected) {
+  background: var(--panel);
+  color: var(--ink);
+  box-shadow: 2px 2px 0 0 var(--ink);
+}
+
+.occasion-button.selected {
+  box-shadow: 3px 3px 0 0 var(--ink);
+}
+
+.occasion-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 2px 2px 0 0 var(--ink);
+}
+
+.occasion-button:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: 1px 1px 0 0 var(--ink);
+}
+
+.lever-button {
+  border: var(--border-thick) solid var(--ink);
+  border-radius: var(--radius-button);
+  font-weight: 900;
+  font-size: 24px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.15s ease;
+  padding: var(--space-4) var(--space-5);
+  box-shadow: var(--shadow);
+}
+
+.lever-button:hover:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 4px 4px 0 0 var(--ink);
+}
+
+.lever-button:active:not(:disabled) {
+  transform: translate(4px, 4px);
+  box-shadow: 2px 2px 0 0 var(--ink);
+}
+
+/* Custom animations */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}

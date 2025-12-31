@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Good Morning Machine',
-  description: 'Generate fun greeting images for any occasion',
+  title: 'Greetings Machine',
+  description: 'A wholesome image vending machine with a mischievous streak',
 }
 
 export default function RootLayout({
