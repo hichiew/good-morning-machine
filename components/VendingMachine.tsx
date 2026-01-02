@@ -190,7 +190,6 @@ export default function VendingMachine() {
       track('generate_fail', {
         mode,
         occasion: selectedOccasion,
-        error: e instanceof Error ? e.message : 'unknown',
         ms: durationMs,
       })
     }
