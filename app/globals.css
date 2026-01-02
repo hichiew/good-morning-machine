@@ -84,7 +84,7 @@ body {
 .mode-button:not(.selected) {
   background: var(--panel);
   color: var(--ink);
-  box-shadow: 2px 2px 0 0 var(--ink);
+  box-shadow: 3px 3px 0 0 var(--ink);
 }
 
 .mode-button.selected {
@@ -98,7 +98,7 @@ body {
 
 .mode-button:active:not(:disabled) {
   transform: translateY(1px);
-  box-shadow: 2px 2px 0 0 var(--ink);
+  box-shadow: 3px 3px 0 0 var(--ink);
 }
 
 .occasion-button {

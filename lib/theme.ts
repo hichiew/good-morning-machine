@@ -39,8 +39,8 @@ export const modeThemes = {
 
 export const modeLabels = {
   default: { label: 'Default', emoji: '🌼', description: 'Wholesome, sincere greetings' },
-  memes: { label: 'Memes', emoji: '🗿', description: 'Ironic / internet humour' },
-  blindbox: { label: 'Random', emoji: '🎰', description: 'Unpredictable, roasty, chaotic' },
+  memes: { label: 'Unserious', emoji: '🗿', description: 'Ironic / internet humour' },
+  blindbox: { label: 'Surprise', emoji: '🎰', description: 'Unpredictable, roasty, chaotic' },
 }
 
 // State enum for machine flow

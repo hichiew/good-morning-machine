@@ -1,7 +1,8 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { MachineState, Mode } from '@/lib/theme'
+import { track } from "@/app/lib/analytics"
 
 interface PickupTrayProps {
   mode: Mode
@@ -9,7 +10,7 @@ interface PickupTrayProps {
   onOpen: () => void
 }
 
-export default function PickupTray({ state, onOpen }: PickupTrayProps) {
+export default function PickupTray({ mode, state, onOpen }: PickupTrayProps) {
   const isReady = state === 'readyToOpen'
   const isGenerating = state === 'generating'
   const isEmpty = state === 'idle' || state === 'pulling'
@@ -24,8 +25,57 @@ export default function PickupTray({ state, onOpen }: PickupTrayProps) {
   const clickable = isReady // only clickable when ready
 
   const handleTrayClick = () => {
+    track("tray_click", { state })
     if (clickable) onOpen()
   }
+  
+
+  // Witty loading lines (rotates while generating)
+  const loadingLines = useMemo(() => {
+    const base = [
+      'Printing in 144p…',
+      'Adding more glow effect to image…',
+      'Downloading vibes from 2004…',
+      'Finding the most motivational flower…',
+    ]
+
+    const byMode: Record<Mode, string[]> = {
+      default: [
+        'Picking the nicest sunrise… 🌅',
+        'Selecting premium garden energy… 🌸',
+        'Adding blessings and good fortune…',
+      ],
+      memes: [
+        'Getting inspired by memes from the web…',
+        'This will take a moment...',
+      ],
+      blindbox: [
+        'Spinning the surprise wheel…',
+        'Consulting the loot table…',
+        'Outcome may be emotionally confusing…',
+      ],
+    }
+
+    // Keep it deterministic-ish per mode, but still fun
+    return [...base, ...(byMode[mode] ?? [])]
+  }, [mode])
+
+  const [loadingText, setLoadingText] = useState(loadingLines[0])
+
+  useEffect(() => {
+    if (!isGenerating) return
+
+    // Start with a fresh random line each time we enter generating
+    let i = Math.floor(Math.random() * loadingLines.length)
+    setLoadingText(loadingLines[i])
+
+    const id = window.setInterval(() => {
+      i = (i + 1) % loadingLines.length
+      setLoadingText(loadingLines[i])
+    }, 3000)
+
+    return () => window.clearInterval(id)
+  }, [isGenerating, loadingLines])
 
   return (
     <button
@@ -51,7 +101,7 @@ export default function PickupTray({ state, onOpen }: PickupTrayProps) {
         {isGenerating && (
           <>
             <div style={{ fontSize: 'var(--font-button)', fontWeight: 800, color: '#666' }}>
-              Dispensing greetings image…
+              {loadingText}
             </div>
             <div className="flex gap-2">
               {[0, 1, 2].map((i) => (

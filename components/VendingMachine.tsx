@@ -1,5 +1,5 @@
 'use client'
-
+import { track } from "@/app/lib/analytics"
 import { useState, useRef } from 'react'
 import { Mode, MachineState, modeThemes } from '@/lib/theme'
 import ModeSelector from './ModeSelector'
@@ -8,7 +8,7 @@ import LeverControl from './LeverControl'
 import PickupTray from './PickupTray'
 import ResultModal from './ResultModal'
 
-type Occasion = 'good-morning' | 'new-year' | 'happy-birthday' | 'have-a-great-day'
+type Occasion = 'good-morning' | 'new-year' | 'birthday' | 'have-a-great-day'
 
 interface GreetingTemplate {
   mainText: string
@@ -36,7 +36,7 @@ const defaultTemplates: Record<Occasion, GreetingTemplate> = {
     textColor: '#8B0000',
     decorations: ['🎊', '🎈', '✨', '🌟', '💫'],
   },
-  'happy-birthday': {
+  'birthday': {
     mainText: 'Happy Birthday',
     subText: 'May your wishes come true',
     emoji: '🐉',
@@ -71,7 +71,7 @@ const memesTemplates: Record<Occasion, GreetingTemplate> = {
     textColor: '#FFFFFF',
     decorations: ['📋', '📝', '🗓️'],
   },
-  'happy-birthday': {
+  'birthday': {
     mainText: 'Happy Birthday',
     subText: 'May your wishes come true',
     emoji: '🗓️',
@@ -162,32 +162,92 @@ export default function VendingMachine() {
     return canvas.toDataURL('image/png')
   }
 
-  const handlePullLever = () => {
-    if (!canPullLever) return
-
-    setState('pulling')
+  const callGenerateApi = async (selectedMode: Mode, selectedOccasion: Occasion) => {
+    const startTime = performance.now()
+    const res = await fetch("/api/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ mode: selectedMode, occasion: selectedOccasion }),
+    });
     
-    // For blindbox, randomly select occasion too
-    const selectedOccasion = mode === 'blindbox' && Math.random() > 0.7
-      ? (['good-morning', 'new-year', 'happy-birthday', 'have-a-great-day'] as Occasion[])[
-          Math.floor(Math.random() * 4)
-        ]
-      : occasion
+    let data: any = null;
+    let text = "";
+    
+    try {
+      // Prefer JSON if possible
+      data = await res.json()
+      const durationMs = Math.round(performance.now() - startTime)
+      track('generate_success', {
+        mode,
+        occasion: selectedOccasion,
+        ms: durationMs,
+      })
+      ;
+    } catch {
+      // If server returned HTML/plain text
+      text = await res.text().catch(() => "");
+      const durationMs = Math.round(performance.now() - startTime)
+      track('generate_fail', {
+        mode,
+        occasion: selectedOccasion,
+        error: e instanceof Error ? e.message : 'unknown',
+        ms: durationMs,
+      })
+    }
+    
+    if (!res.ok) {
+      const msg =
+        (data && typeof data.error === "string" && data.error) ||
+        (text && text) ||
+        `Generate failed (${res.status})`;
+    
+      console.error("Generate API failed:", res.status, data || text);
+    
+      throw new Error(msg);
+    }
+    
+    const b64 = data?.imageBase64;
+    if (!b64) throw new Error("No imageBase64 returned from API");
+    
+    return `data:image/png;base64,${b64}`;    
+  };
+  
 
-    // Move to generating state
-    setTimeout(() => {
-      setState('generating')
-      
-      // Generate image after a brief delay
-      setTimeout(() => {
-        const imageUrl = generateImage(mode, selectedOccasion)
-        setGeneratedImageUrl(imageUrl)
-        setState('readyToOpen')
-      }, 1500)
-    }, 300)
-  }
+  const handlePullLever = () => {
+    track("lever_pull", { mode, occasion })
+    if (!canPullLever) return;
+  
+    setState("pulling");
+  
+    const selectedOccasion =
+      mode === "blindbox" && Math.random() > 0.7
+        ? (["good-morning", "new-year", "birthday", "have-a-great-day"] as Occasion[])[
+            Math.floor(Math.random() * 4)
+          ]
+        : occasion;
+  
+    // go generating shortly after pull
+    window.setTimeout(() => setState("generating"), 300);
+  
+    // then call API
+    window.setTimeout(() => {
+      void (async () => {
+        try {
+          const imageUrl = await callGenerateApi(mode, selectedOccasion);
+          setGeneratedImageUrl(imageUrl);
+          setState("readyToOpen");
+        } catch (e) {
+          console.error(e);
+          setState("idle");
+        }
+      })();
+    }, 900);
+  };
+
+
 
   const handleOpenItem = () => {
+    track("tray_open", { mode, occasion })
     if (state !== 'readyToOpen') return
     setState('opened')
   }
@@ -203,6 +263,7 @@ export default function VendingMachine() {
   }
 
   const handleDownload = () => {
+    track("download", { mode, occasion })
     if (!generatedImageUrl) return
     
     const link = document.createElement('a')
@@ -251,21 +312,27 @@ export default function VendingMachine() {
             lineHeight: '1.4',
         }}
         >
-        A VENDING MACHINE TO GET GREETING IMAGES
+        A VENDING MACHINE FOR IMPERFECT GREETING IMAGES
         </div>
 
         {/* Display Window */}
         <div className="panel p-6 mb-6">
           <ModeSelector
             mode={mode}
-            onSelect={setMode}
+            onSelect={(m) => {
+              track("mode_select", { mode: m })
+              setMode(m)
+            }}            
             disabled={isLocked}
           />
           
           <OccasionSelector
             mode={mode}
             occasion={occasion}
-            onSelect={setOccasion}
+            onSelect={(o) => {
+              track("occasion_select", { occasion: o, mode })
+              setOccasion(o)
+            }}            
             disabled={isLocked}
             show={mode !== 'blindbox'}
           />

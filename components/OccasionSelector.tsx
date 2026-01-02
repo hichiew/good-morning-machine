@@ -2,7 +2,7 @@
 
 import { Mode, modeThemes } from '@/lib/theme'
 
-type Occasion = 'good-morning' | 'new-year' | 'happy-birthday' | 'have-a-great-day'
+type Occasion = 'good-morning' | 'new-year' | 'birthday' | 'have-a-great-day'
 
 interface OccasionSelectorProps {
   mode: Mode
@@ -15,7 +15,7 @@ interface OccasionSelectorProps {
 const occasions = [
   { id: 'good-morning' as Occasion, label: 'Good Morning', emoji: '🌅' },
   { id: 'new-year' as Occasion, label: 'Happy New Year', emoji: '🎉' },
-  { id: 'happy-birthday' as Occasion, label: 'Happy Birthday', emoji: '🥳 ' },
+  { id: 'birthday' as Occasion, label: 'Happy Birthday', emoji: '🥳 ' },
   { id: 'have-a-great-day' as Occasion, label: 'Have a Great Day', emoji: '☀️' },
 ]
 

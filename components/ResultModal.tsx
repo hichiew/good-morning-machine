@@ -91,35 +91,6 @@ export default function ResultModal({
           >
             📥 DOWNLOAD IMAGE
           </button>
-
-          <button
-            onClick={onAnother}
-            className="w-full border-[3px] border-[var(--ink)] rounded-[var(--radius-button)] py-4 font-bold uppercase transition-all transform"
-            style={{
-              backgroundColor: theme.machineBg,
-              color: mode === 'memes' ? '#1A1A1A' : '#FFFFFF',
-              fontSize: 'var(--font-button)',
-              boxShadow: '4px 4px 0 0 var(--ink)',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translate(2px, 2px)'
-              e.currentTarget.style.boxShadow = '2px 2px 0 0 var(--ink)'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translate(0, 0)'
-              e.currentTarget.style.boxShadow = '4px 4px 0 0 var(--ink)'
-            }}
-            onMouseDown={(e) => {
-              e.currentTarget.style.transform = 'translate(3px, 3px)'
-              e.currentTarget.style.boxShadow = '1px 1px 0 0 var(--ink)'
-            }}
-            onMouseUp={(e) => {
-              e.currentTarget.style.transform = 'translate(2px, 2px)'
-              e.currentTarget.style.boxShadow = '2px 2px 0 0 var(--ink)'
-            }}
-          >
-            🎰 BACK TO MACHINE
-          </button>
         </div>
       </div>
     </div>

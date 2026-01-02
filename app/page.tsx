@@ -6,29 +6,23 @@ export default function Home() {
   return (
     <main className="min-h-screen flex items-center justify-center p-4 md:p-8" style={{ backgroundColor: 'var(--bg)' }}>
       <div className="w-full max-w-2xl relative">
-        {/* Decorative stickers/posters - anchored to viewport corners */}
-        <div className="fixed top-4 left-4 hidden md:block z-10">
-          <div
-            className="border-[3px] border-[var(--ink)] rounded-lg p-3 rotate-[-5deg]"
-            style={{ backgroundColor: 'var(--accent-yellow)' }}
-          >
-            <div className="text-2xl">⭐</div>
-            <div className="text-xs font-bold" style={{ color: 'var(--ink)' }}>NEW!</div>
-          </div>
-        </div>
-        
-        <div className="fixed top-4 right-4 hidden md:block z-10">
-          <div
-            className="border-[3px] border-[var(--ink)] rounded-lg p-3 rotate-[5deg]"
-            style={{ backgroundColor: 'var(--accent-yellow)' }}
-          >
-            <div className="text-2xl">🎰</div>
-            <div className="text-xs font-bold" style={{ color: 'var(--ink)' }}>FUN!</div>
-          </div>
-        </div>
 
         {/* Main Vending Machine - Centered */}
         <VendingMachine />
+
+<footer className="mt-6 text-center text-xs opacity-70 text-white">
+  © 2026 Greetings Machine™ · Got bug or feedback?{" "}
+  <a
+    href="https://instagram.com/hichiew"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="underline hover:opacity-100"
+  >
+    DM me on IG @hichiew
+  </a>
+</footer>
+
+
       </div>
     </main>
   )
