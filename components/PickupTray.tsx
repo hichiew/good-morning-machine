@@ -45,10 +45,10 @@ export default function PickupTray({ mode, state, onOpen }: PickupTrayProps) {
         'Selecting premium garden energy… 🌸',
         'Adding blessings and good fortune…',
       ],
-      memes: [
-        'Getting inspired by memes from the web…',
-        'This will take a moment...',
-      ],
+     //memes: [
+     // 'Getting inspired by memes from the web…',
+     // 'This will take a moment...',
+     // ],
       blindbox: [
         'Spinning the surprise wheel…',
         'Consulting the loot table…',
