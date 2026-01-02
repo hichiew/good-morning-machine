@@ -21,8 +21,8 @@ export type Occasion =
   - Inconsistent typography on purpose: weird kerning, mismatched sizes, awkward line breaks.
   - Text should be smaller relative to the photo (don’t dominate the whole image).
   - Add cheesy WordArt styling: white outline, drop shadow, glow (one or two effects max).
-  - Text must always be readable and real english words, no gibberish.
-  - Subtext should have a maximum of 5 words
+  - Subtext must always be readable and real english words, no gibberish.
+  - Subtext should have a maximum of 4 words
   
   Avoid:
   - Cartoon style, vector flat poster style, anime style.
@@ -44,18 +44,18 @@ Mode: DEFAULT (wholesome auntie WhatsApp energy)
 - flowers, sunrise, gardens, butterflies, cute animals
 `.trim(),
 
-memes: `
-Mode: MEMES
-- subtext is deadpan, understated, roasty, similar to tone of popular memes from the web
-- Times New Roman-ish serif text
-`.trim(),
+//memes: `
+//Mode: MEMES
+//- subtext is deadpan, understated, roasty, similar to tone of popular memes from the web
+//- Times New Roman-ish serif text
+//`.trim(),
 
   blindbox: `
 Mode: BLINDBOX (random surprise, sometimes roast)
 - unexpected subject + odd choices
-- text and subtext should be mostly roasty but seldom wholesome
+- text and subtext should be mostly roasty and sarcastic
 - still looks like a forwarded greeting image
-- can be playful-roasty but not hateful
+- cannot be hateful
 `.trim(),
 };
 
@@ -65,28 +65,28 @@ const OCCASION_CONTENT: Record<Occasion, string> = {
 Occasion: Good Morning
 Image subject: yellow flowers OR sunrise OR garden scene OR coffee OR breakfast on simple background.
 Text rules:
-- MUST include the anchor phrase: "Good Morning"
+- MUST only include the anchor phrase: "Good Morning"
 `.trim(),
 
   "have-a-great-day": `
 Occasion: Have a Great Day
 Image subject: simple cheerful scene (sun, sky, flowers) OR other cute animals.
 Text rules:
-- MUST include the anchor phrase: "Have a Great Day"
+- MUST only include the anchor phrase: "Have a Great Day"
 `.trim(),
 
   "new-year": `
 Occasion: New Year
 Image subject: fireworks, confetti, simple celebratory icons.
 Text rules:
-- MUST include the anchor phrase: "Happy New Year"
+- MUST only include the anchor phrase: "Happy New Year"
 `.trim(),
 
   "birthday": `
 Occasion: Birthday
 Image subject: cake with candles, confetti, simple party vibe.
 Text rules:
-- MUST include the anchor phrase: "Happy Birthday"
+- MUST only include the anchor phrase: "Happy Birthday"
 `.trim(),
 };
 
@@ -144,36 +144,36 @@ const PHRASES: Record<Mode, Record<Occasion, PhraseBank>> = {
     },
   },
 
-  memes: {
-    "good-morning": {
-      anchor: "Good Morning.",
-      extras: [
-        "Proceed.",
-        "You Are Awake.",
-        "This Is Fine.",
-        "Try Again Tomorrow.",
-        "Another Day Achieved.",
-      ],
-    },
-    "have-a-great-day": {
-      anchor: "Have A Great Day.",
-      extras: ["Or Don’t.", "Noted.", "Circle Back Later.", "Per My Last Email."],
-    },
-    "new-year": {
-      anchor: "Happy New Year.",
-      extras: [
-        "Time Continues.",
-        "Please Reboot Yourself.",
-        "Same Problems, New Calendar.",
-        "Let’s Sync Offline.",
-      ],
-    },
+  //memes: {
+    //"good-morning": {
+      //anchor: "Good Morning.",
+      //extras: [
+      //  "Proceed.",
+      //  "You Are Awake.",
+      //  "This Is Fine.",
+      //  "Try Again Tomorrow.",
+      //  "Another Day Achieved.",
+      //],
+    //},
+    //"have-a-great-day": {
+     // anchor: "Have A Great Day.",
+     // extras: ["Or Don’t.", "Noted.", "Circle Back Later.", "Per My Last Email."],
+    //},
+    //"new-year": {
+      //anchor: "Happy New Year.",
+     // extras: [
+      //  "Time Continues.",
+      //  "Please Reboot Yourself.",
+      //  "Same Problems, New Calendar.",
+      //  "Let’s Sync Offline.",
+     // ],
+   // },
     
-    birthday: {
-      anchor: "Happy Birthday.",
-      extras: ["Time Continues.", "Aging: Confirmed.", "Enjoy This Milestone."],
-    },
-  },
+   // birthday: {
+     // anchor: "Happy Birthday.",
+     // extras: ["Time Continues.", "Aging: Confirmed.", "Enjoy This Milestone."],
+    //},
+  //},
 
   blindbox: {
     "good-morning": {
@@ -194,7 +194,7 @@ const PHRASES: Record<Mode, Record<Occasion, PhraseBank>> = {
       extras: ["New Year, New Plot", "Unlocking Side Quest", "Level Up? Maybe."],
     },
 
-    birthday: {
+    "birthday": {
       anchor: "Happy Birthday",
       extras: ["Boss Fight Unlocked", "Achievement: Older", "Cake.exe Running"],
     },
@@ -208,21 +208,21 @@ function pickExtras(extras: string[], count: number) {
 
 // Optional: tone tweak per mode for the embedded text
 function maybeOverrideText(mode: Mode, occasion: Occasion) {
-  if (mode === "memes") {
-    if (occasion === "good-morning") {
-      return `"Good Morning.
-Proceed."`;   
-    }
-    if (occasion === "have-a-great-day") {
-      return `"Have A Great Day.
-Or Don’t."`;
-    }
-    if (occasion === "birthday") {
-      return `"Happy Birthday.
-Time Continues."`;
-    }
-    return `"Noted."`;
-  }
+ // if (mode === "memes") {
+    //if (occasion === "good-morning") {
+     // return `"Good Morning.
+//Proceed."`;   
+    //}
+   // if (occasion === "have-a-great-day") {
+     // return `"Have A Great Day.
+//Or Don’t."`;
+    //}
+   // if (occasion === "birthday") {
+     // return `"Happy Birthday.
+//Time Continues."`;
+    //}
+   // return `"Noted."`;
+  //}
 
   if (mode === "blindbox") {
     if (occasion === "good-morning") {

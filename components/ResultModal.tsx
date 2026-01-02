@@ -46,7 +46,7 @@ export default function ResultModal({
               color: 'var(--ink)'
             }}
           >
-            IMAGE CREATED
+            SUCCESS
           </div>
         </div>
 

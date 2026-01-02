@@ -1,5 +1,5 @@
 // Theme system with contrasting colors for mode vs occasion buttons
-export type Mode = 'default' | 'memes' | 'blindbox'
+export type Mode = 'default' | 'blindbox'
 
 export const modeThemes = {
   default: {
@@ -13,17 +13,17 @@ export const modeThemes = {
     modeBtnSelectedBg: '#FF6B6B', // Machine color when selected
     modeBtnSelectedText: '#FFFFFF', // White text
   },
-  memes: {
-    machineBg: '#CA1551', // deep pink
-    panelBg: '#FB4D3D', // tomato red
-    accent:'#FB4D3D', //tomato red
-    occasionBtnBg: '#FFF8E7', // Cream/off-white (neutral base)
-    occasionBtnSelectedBg: '#FB4D3D', //tomato red
-    occasionBtnText: '#1A1A1A', // Black text
-    occasionBtnSelectedText: '#1A1A1A', // Black text (yellow bg)
-    modeBtnSelectedBg:'#CA1551', // deep pink
-    modeBtnSelectedText: '#1A1A1A', // Dark text
-  },
+  //memes: {
+   // machineBg: '#CA1551', // deep pink
+   // panelBg: '#FB4D3D', // tomato red
+   // accent:'#FB4D3D', //tomato red
+   // occasionBtnBg: '#FFF8E7', // Cream/off-white (neutral base)
+   // occasionBtnSelectedBg: '#FB4D3D', //tomato red
+   // occasionBtnText: '#1A1A1A', // Black text
+   // occasionBtnSelectedText: '#1A1A1A', // Black text (yellow bg)
+   // modeBtnSelectedBg:'#CA1551', // deep pink
+   // modeBtnSelectedText: '#1A1A1A', // Dark text
+  //},
   blindbox: {
     machineBg: '#03CEA4', // teal green
     panelBg: '#FFF8E7', // Warm off-white
@@ -39,7 +39,7 @@ export const modeThemes = {
 
 export const modeLabels = {
   default: { label: 'Default', emoji: '🌼', description: 'Wholesome, sincere greetings' },
-  memes: { label: 'Unserious', emoji: '🗿', description: 'Ironic / internet humour' },
+  // memes: { label: 'Unserious', emoji: '🗿', description: 'Ironic / internet humour' }, //hide this
   blindbox: { label: 'Surprise', emoji: '🎰', description: 'Unpredictable, roasty, chaotic' },
 }
 
